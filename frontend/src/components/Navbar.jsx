@@ -28,7 +28,7 @@ const Navbar = () => {
         onClick={() => navigate("/")}
         src={assets.logo}
         alt="Company Logo"
-        className="w-44 cursor-pointer"
+        className="w-32 md:w-44 cursor-pointer"
       />
 
       {/* Navigation Links (Desktop) */}
@@ -49,6 +49,24 @@ const Navbar = () => {
 
       {/* Right Section */}
       <div className="flex items-center gap-4">
+        {/* Admin/Doctor Login Button */}
+        <button
+          onClick={() => (window.location.href = "https://prescripto-admin-topaz.vercel.app")} // Navigate to external URL
+          className="bg-gray-700 text-white px-3 py-1 md:px-4 md:py-2 rounded-full hover:bg-gray-800 transition-all text-sm md:text-base"
+        >
+          Admin
+        </button>
+
+        {/* Login Button (If Not Logged In) */}
+        {!token && (
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-primary text-white px-3 py-1 md:px-4 md:py-2 rounded-full hover:bg-blue-600 transition-all text-sm md:text-base"
+          >
+            Create Account
+          </button>
+        )}
+
         {/* Profile Image and Dropdown */}
         {token && userData && (
           <div
@@ -94,16 +112,6 @@ const Navbar = () => {
               </div>
             )}
           </div>
-        )}
-
-        {/* Login Button (If Not Logged In) */}
-        {!token && (
-          <button
-            onClick={() => navigate("/login")}
-            className="bg-primary text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-all"
-          >
-            Create Account
-          </button>
         )}
 
         {/* Mobile Menu Icon */}
