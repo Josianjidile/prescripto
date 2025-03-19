@@ -4,11 +4,13 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DoctorContext } from "../context/DoctorContext";
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons from FontAwesome
 
 const Login = () => {
   const [state, setState] = useState("Admin"); // Toggle between Admin and Doctor
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const { setToken, backendUrl } = useContext(AdminContext);
   const { setDToken } = useContext(DoctorContext);
 
@@ -94,15 +96,20 @@ const Login = () => {
           >
             Email
           </label>
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            type="email"
-            id="email"
-            required
-            placeholder="Enter your email"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          />
+          <div className="relative mt-1">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <FaEnvelope className="h-5 w-5 text-gray-400" /> {/* Email icon */}
+            </div>
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              type="email"
+              id="email"
+              required
+              placeholder="Enter your email"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
         </div>
 
         {/* Password Input */}
@@ -113,21 +120,37 @@ const Login = () => {
           >
             Password
           </label>
-          <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            id="password"
-            required
-            placeholder="Enter your password"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          />
+          <div className="relative mt-1">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <FaLock className="h-5 w-5 text-gray-400" /> {/* Password icon */}
+            </div>
+            <input
+              type={showPassword ? "text" : "password"} // Toggle input type
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              id="password"
+              required
+              placeholder="Enter your password"
+              className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            />
+            {/* Show/Hide Password Button */}
+            <div
+              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <FaEyeSlash className="h-5 w-5 text-gray-400" /> // Hide password icon
+              ) : (
+                <FaEye className="h-5 w-5 text-gray-400" /> // Show password icon
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Login Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-all"
         >
           Login
         </button>
@@ -139,7 +162,7 @@ const Login = () => {
               Doctor Login{" "}
               <span
                 onClick={toggleState}
-                className="text-blue-500 cursor-pointer"
+                className="text-blue-500 cursor-pointer hover:underline"
               >
                 Click here
               </span>
@@ -149,7 +172,7 @@ const Login = () => {
               Admin Login{" "}
               <span
                 onClick={toggleState}
-                className="text-blue-500 cursor-pointer"
+                className="text-blue-500 cursor-pointer hover:underline"
               >
                 Click here
               </span>
